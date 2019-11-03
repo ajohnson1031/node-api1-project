@@ -77,6 +77,10 @@
   box-sizing: border-box;
   padding: 15px;
   width: 250px;
+  height: 210px;
+}
+.user-container div.ui.card.usercard h3 {
+  margin-top: 0;
 }
 .user-container div.ui.card.usercard .edit::before {
   position: absolute;
