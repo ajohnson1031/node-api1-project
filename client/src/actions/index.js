@@ -31,7 +31,9 @@ export const handleFormSubmission = ({ text, id, name, bio }) => dispatch => {
         .catch(err => {
           dispatch({
             type: FORM_SUBMISSION_FAIL,
-            payload: err.response.data.message
+            payload: {
+              message: { success: false, output: err.response.data.message }
+            }
           });
         });
       break;
@@ -53,54 +55,75 @@ export const handleFormSubmission = ({ text, id, name, bio }) => dispatch => {
         .catch(err => {
           dispatch({
             type: FORM_SUBMISSION_FAIL,
-            payload: err.response.data.message
+            payload: {
+              message: { success: false, output: err.response.data.message }
+            }
           });
         });
       break;
     case "UPDATE":
-      axios
-        .put(`http://localhost:4000/users/${id}`, { name: name, bio: bio })
-        .then(res =>
-          dispatch({
-            type: HANDLE_FORM_SUBMISSION,
+      name === "" || bio === ""
+        ? dispatch({
+            type: FORM_SUBMISSION_FAIL,
             payload: {
               text: text,
               message: {
-                success: null,
-                output: null
+                success: false,
+                output: "Please complete all fields..."
               }
             }
           })
-        )
-        .catch(err => {
-          dispatch({
-            type: FORM_SUBMISSION_FAIL,
-            payload: err.response.data.errorMessage
-          });
-        })
-        .finally(res =>
-          axios
-            .get("http://localhost:4000/users")
-            .then(res => {
+        : axios
+            .put(`http://localhost:4000/users/${id}`, { name: name, bio: bio })
+            .then(res =>
               dispatch({
                 type: HANDLE_FORM_SUBMISSION,
                 payload: {
-                  text: "GET",
-                  users: res.data.users,
+                  text: text,
                   message: {
-                    success: true,
-                    output: "User info updated!"
+                    success: null,
+                    output: null
                   }
                 }
-              });
-            })
+              })
+            )
             .catch(err => {
               dispatch({
                 type: FORM_SUBMISSION_FAIL,
-                payload: err.response.data.message
+                payload: {
+                  text: "UPDATE",
+                  message: { success: false, output: err.response.data.message }
+                }
               });
             })
-        );
+            .finally(res =>
+              axios
+                .get("http://localhost:4000/users")
+                .then(res => {
+                  dispatch({
+                    type: HANDLE_FORM_SUBMISSION,
+                    payload: {
+                      text: "GET",
+                      users: res.data.users,
+                      message: {
+                        success: true,
+                        output: "User info updated!"
+                      }
+                    }
+                  });
+                })
+                .catch(err => {
+                  dispatch({
+                    type: FORM_SUBMISSION_FAIL,
+                    payload: {
+                      message: {
+                        success: false,
+                        output: err.response.data.message
+                      }
+                    }
+                  });
+                })
+            );
       break;
     case "DELETE":
       axios
@@ -120,7 +143,9 @@ export const handleFormSubmission = ({ text, id, name, bio }) => dispatch => {
         .catch(err => {
           dispatch({
             type: FORM_SUBMISSION_FAIL,
-            payload: err.response.data.message
+            payload: {
+              message: { success: false, output: err.response.data.message }
+            }
           });
         })
         .finally(res =>
@@ -142,7 +167,9 @@ export const handleFormSubmission = ({ text, id, name, bio }) => dispatch => {
             .catch(err => {
               dispatch({
                 type: FORM_SUBMISSION_FAIL,
-                payload: err.response.data.message
+                payload: {
+                  message: { success: false, output: err.response.data.message }
+                }
               });
             })
         );
@@ -171,7 +198,12 @@ export const handleSelect = value => dispatch => {
           });
         })
         .catch(err => {
-          dispatch({ type: FORM_SUBMISSION_FAIL, payload: err });
+          dispatch({
+            type: FORM_SUBMISSION_FAIL,
+            payload: {
+              message: { success: false, output: err }
+            }
+          });
         })
     : dispatch({ type: HANDLE_SELECT, payload: trueValue });
 };
