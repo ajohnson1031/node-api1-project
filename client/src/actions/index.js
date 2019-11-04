@@ -14,7 +14,7 @@ export const handleFormSubmission = ({ text, id, name, bio }) => dispatch => {
       break;
     case "GET BY ID":
       axios
-        .get(`http://localhost:4000/users/${id}`)
+        .get(`${process.env.REACT_APP_API_URL}/${id}`)
         .then(res => {
           dispatch({
             type: HANDLE_FORM_SUBMISSION,
@@ -39,7 +39,7 @@ export const handleFormSubmission = ({ text, id, name, bio }) => dispatch => {
       break;
     case "CREATE":
       axios
-        .post("http://localhost:4000/users", { name: name, bio: bio })
+        .post(`${process.env.REACT_APP_API_URL}`, { name: name, bio: bio })
         .then(res => {
           dispatch({
             type: HANDLE_FORM_SUBMISSION,
@@ -74,7 +74,10 @@ export const handleFormSubmission = ({ text, id, name, bio }) => dispatch => {
             }
           })
         : axios
-            .put(`http://localhost:4000/users/${id}`, { name: name, bio: bio })
+            .put(`${process.env.REACT_APP_API_URL}/${id}`, {
+              name: name,
+              bio: bio
+            })
             .then(res =>
               dispatch({
                 type: HANDLE_FORM_SUBMISSION,
@@ -98,7 +101,7 @@ export const handleFormSubmission = ({ text, id, name, bio }) => dispatch => {
             })
             .finally(res =>
               axios
-                .get("http://localhost:4000/users")
+                .get(`${process.env.REACT_APP_API_URL}`)
                 .then(res => {
                   dispatch({
                     type: HANDLE_FORM_SUBMISSION,
@@ -127,7 +130,7 @@ export const handleFormSubmission = ({ text, id, name, bio }) => dispatch => {
       break;
     case "DELETE":
       axios
-        .delete(`http://localhost:4000/users/${id}`)
+        .delete(`${process.env.REACT_APP_API_URL}/${id}`)
         .then(res => {
           dispatch({
             type: HANDLE_FORM_SUBMISSION,
@@ -150,7 +153,7 @@ export const handleFormSubmission = ({ text, id, name, bio }) => dispatch => {
         })
         .finally(res =>
           axios
-            .get("http://localhost:4000/users")
+            .get(`${process.env.REACT_APP_API_URL}/`)
             .then(res => {
               dispatch({
                 type: HANDLE_FORM_SUBMISSION,
@@ -183,7 +186,7 @@ export const handleSelect = value => dispatch => {
   const trueValue = value === "0" ? "" : value;
   trueValue === "GET"
     ? axios
-        .get("http://localhost:4000/users")
+        .get(`${process.env.REACT_APP_API_URL}/`)
         .then(res => {
           dispatch({
             type: HANDLE_FORM_SUBMISSION,

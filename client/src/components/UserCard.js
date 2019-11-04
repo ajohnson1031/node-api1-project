@@ -21,6 +21,7 @@ const UserCard = ({ id, name, bio, handleFormSubmission }) => {
 
   const handleSubmission = (e, name, bio) => {
     e.preventDefault();
+    setInfo({ ...info, show: "hide" });
     handleFormSubmission({ text: "UPDATE", id: id, name: name, bio: bio });
   };
 

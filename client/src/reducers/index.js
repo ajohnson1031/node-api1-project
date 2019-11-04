@@ -4,7 +4,6 @@ import {
   HANDLE_FORM_SUBMISSION,
   FORM_SUBMISSION_FAIL
 } from "../actions";
-import { stat } from "fs";
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
