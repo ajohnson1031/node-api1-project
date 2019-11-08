@@ -1,6 +1,7 @@
 // implement your API here
 const express = require("express");
 const db = require("./data/db.js");
+const cors = require("cors");
 
 const server = express();
 
@@ -9,6 +10,7 @@ server.listen(4000, () => {
 });
 
 server.use(express.json());
+server.use(cors());
 
 //Standard API Call
 server.get("/", (req, res) => {
@@ -65,7 +67,7 @@ server.post("/users", (req, res) => {
 });
 
 //Update User
-server.put("/user/:id", (req, res) => {
+server.put("/users/:id", (req, res) => {
   const { id } = req.params;
   const userInfo = req.body;
 

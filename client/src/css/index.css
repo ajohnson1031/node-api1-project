@@ -64,6 +64,7 @@
 }
 .user-container {
   display: flex;
+  flex-wrap: wrap;
   max-width: 80%;
   padding: 30px 15px;
   background-color: #f4f4f4;
@@ -72,7 +73,7 @@
   margin-top: 30px;
 }
 .user-container div.ui.card.usercard {
-  margin: 0 15px;
+  margin: 0 15px 30px;
   text-align: center;
   box-sizing: border-box;
   padding: 15px;
